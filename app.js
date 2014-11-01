@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 
 //routes
 var routes = require('./routes/index');
+var populate = require('./routes/populate');
 
 // init the app
 var app = express();
@@ -26,9 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // URL mapper
 app.use('/', routes);
+app.use('/populateDB', populate);
 
 // Database init
-// mongoose.connect('mongodb://localhost:27066/ShapeMENA2014')
+mongoose.connect('mongodb://178.62.95.180:27066/ShapeMENA2014')
 
 // Database Mdoels
 var Contacts = require('./models/contacts.js');
