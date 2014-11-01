@@ -10,7 +10,7 @@ Find all the information below.
 Server Docs
 --------------
 
-Server IP: ```178.62.95.180```.
+Server IP: ```178.62.95.180:3000```.
 
 You don't need any documentation to connect to the server.
 
@@ -20,11 +20,11 @@ Requests
 -----------
 
 ### Get Contacts 
-Make a request to [178.62.95.180/contacts](178.62.95.180/contacts). 
+Make a request to [178.62.95.180:3000/contacts](178.62.95.180/contacts). 
 
 This is what you will receive:
 
-	{
+	{contacts:[{
 		_id: id for the contact,
 		firstName: String,
 		lastName: String,
@@ -34,16 +34,17 @@ This is what you will receive:
 		email: String,
 		bio: String,
 		title: String,
+		}, ...]
 	}
 
 ### Get Speakers 
-Make a request to [178.62.95.180/speakers](178.62.95.180/speakers). 
+Make a request to [178.62.95.180:3000/speakers](178.62.95.180/speakers). 
 
 You will receive all the contacts that will be speakers. 
 
 This is what you will receive:
 
-	{
+	{speakers:[{
 		_id: id for the contact,
 		firstName: String,
 		lastName: String,
@@ -53,6 +54,7 @@ This is what you will receive:
 		email: String,
 		bio: String,
 		title: String,
+		}, ...]
 	}
 
 ### Get Images 
