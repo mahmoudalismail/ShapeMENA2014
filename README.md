@@ -20,7 +20,7 @@ Requests
 -----------
 
 ### Get Contacts 
-Make a request to [178.62.95.180:3000/contacts](178.62.95.180/contacts). 
+Make a request to [178.62.95.180:3000/contacts](178.62.95.180:3000/contacts). 
 
 This is what you will receive:
 
@@ -38,7 +38,7 @@ This is what you will receive:
 	}
 
 ### Get Speakers 
-Make a request to [178.62.95.180:3000/speakers](178.62.95.180/speakers). 
+Make a request to [178.62.95.180:3000/speakers](178.62.95.180:3000/speakers). 
 
 You will receive all the contacts that will be speakers. 
 
@@ -58,7 +58,7 @@ This is what you will receive:
 	}
 
 ### Get Images 
-Make a request to [178.62.95.180/id](178.62.95.180/id). 
+Make a request to [178.62.95.180:3000/id](178.62.95.180:3000/id). 
 
 Request the above link with the contacts id. 
 
