@@ -1,6 +1,9 @@
 ShapeMENA2014
 =============
 
+**The backend does not work anymore. The project ended
+long time back and the service is off. The code over here is for reference.**
+
 Mobile Application Backend for ShapeMENA2014
 
 API Docs

@@ -11,7 +11,6 @@ router.get('/', function(req, res) {
 
 
 /* GET contacts */
-
 router.get('/contacts', function(req, res){
 
 	Contacts.find({}, '-image', function(err, response){
@@ -22,13 +21,12 @@ router.get('/contacts', function(req, res){
 /* GET speakers */
 router.get('/speakers', function(req, res){
 
-	Contacts.find({'speaker': 'True'}, function(err, response){
+	Contacts.find({'speaker': true}, function(err, response){
 		res.send({speakers: JSON.stringify(response)});
 	});
 });
 
-/* GET images */
-
+/* GET images by ID */
 router.get('/:id', function(req, res){
 	Images.findOne({'person': req.param('id')}, 'image',function(err, img){
 	    if (err)

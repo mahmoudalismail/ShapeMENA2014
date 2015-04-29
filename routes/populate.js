@@ -5,45 +5,34 @@ var Images = require('../models/images.js');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var lazy = require("lazy");
+// You will not find this file
+var data_to_include = require("./database_v1.0")
 
-// /* GET home page. */
-// router.get('/', function(req, res) {
-//   res.send("Welcome to ShapeMENA2014, you accessed our backend population!")
-// });
 
 /* GET adds the speakers to the database */
 router.get('/fillReadData', function(req, res){
-  console.log("HELLO\n");
   
-  new lazy(fs.createReadStream('/Users/mahmoudalismail/Projects/ShapeMENA2014/routes/speakers-v1.csv')).lines.forEach(function(line){
-         console.log(line.toString().split(","));
+  for (var i=0; i<data_to_include.data_to_import.length; i++){
+    if (data_to_include.data_to_import[i].speaker == "" ||
+      data_to_include.data_to_import[i].speaker == "FALSE") {
+      data_to_include.data_to_import[i].speaker = false;
+    }
+    else{
+      data_to_include.data_to_import[i].speaker = true;
+    }
+    var contact = new Contacts(
+        data_to_include.data_to_import[i]
+    );
 
-        var person = line.toString().split(",");
-        console.log(person);
-        
-        var contact = new Contacts({
-          'firstName': person[0],
-          'lastName': person[1],
-          'title': person[2],
-          'company': person[3]
-          // 'hub': 'Lebanon',
-          // 'occupation': ,
-          // 'link': 'www.mahmoudalismail.com',
-          // 'email': 'zaidhaque@gmail.com',
-          // 'bio': 'yes',
-          // 'speaker': true
-        });
-
-        contact.save(function (err, a) {
-            if (err) console.log("ERROR\n\n\n\n");
-            else
-            res.send("You saved a contact successfuly!");
-          });
-  });
-
+    contact.save(function (err, a) {
+        if (err) console.log("ERROR\n\n\n\n");
+        else
+        res.send("You saved a contact #"+i+"successfuly!");
+      });
+  }
 });
-/* GET adds contacts to the db */
 
+/* GET adds contacts to the db */
 router.get('/fillContact', function(req, res){
 	
 	var contact = new Contacts({
@@ -60,7 +49,7 @@ router.get('/fillContact', function(req, res){
 	});
 
 	contact.save(function (err, a) {
-      if (err) console.log("ERROR\n\n\n\n");
+      if (err) console.log("ERROR adding a contact to database!\n");
       else
       res.send("You saved a contact successfuly!");
   	});
@@ -69,25 +58,50 @@ router.get('/fillContact', function(req, res){
 
 router.get('/fillImage', function(req, res){
 
-	var imgPath = "/Users/mahmoudalismail/Projects/ShapeMENA2014/public/images/profilePhoto.jpg";
+	var imgPath = "/Users/mahmoudalismail/Desktop/ShapeMENA_data/portraits/";
 
+	var make = Contacts.find({'speaker': 'true'}, function(err, contacts){
+    if (err) {
+      res.send("Error finding the speaker!\n")
+    }
 
-	var make = Contacts.findOne({'firstName': 'Zaid'}, function(err, contact){
-		console.log("contact: ",contact.firstName);
-		
-		var image = new Images({
-			'person': contact,
-			'image': {
-				"data": fs.readFileSync(imgPath),
-				"mimeType": "image/jpg"}
-		});
+    
+    for (var i=0; i<contacts.length;i++){
+      personPath = imgPath+contacts[i].firstName+" "+contacts[i].lastName+".jpg"
 
-		image.save(function (err, a) {
-      		if (err) console.log("ERROR\n\n\n\n");
-      		else
-      		res.send("You saved a image successfuly!");
-  		});
+      // to manually see if filenames need to be edited 
+      if (fs.existsSync(personPath)) {
+        console.log("[TRUE]"+contacts[i].firstName+" "+contacts[i].lastName+" has a picture in the available")
+        // saveImage(personPath, contacts[i])
+        console.log("ID: "+contacts[i].id);
+      }
+      else {
+        console.log("[FALSE]"+contacts[i].firstName+" "+contacts[i].lastName+" has no picture in the available")
+        // saveImage(imgPath+"unknown-person.jpg", contacts[i])
+      }
+      
+    }
+
 	});
 });
+
+// saves jpg images 
+function saveImage(path, contact) {
+  
+  var image = new Images({
+     'person': contact,
+     'image': {
+       "data": fs.readFileSync(path),
+       "mimeType": "image/jpg"}
+    });
+
+    image.save(function (err, a) {
+         if (err)
+          res.send("Error saving the image\n");
+         
+         else
+          res.send("You saved a image successfuly!");
+     });
+}
 
 module.exports = router;
